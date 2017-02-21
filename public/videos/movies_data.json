@@ -1,0 +1,7 @@
+{
+    "amount": "1",
+    "library": [{
+        "name": "demo1",
+        "path": "demo1.mp4"
+    }]
+}

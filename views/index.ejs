@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home_cinema</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8" />
+    
+	<meta name="author" content="Andre Cavalheiro">
+    <meta name="description" content="Cavalheiro's personal home cinema">
+
+    <style type="text/css">
+
+    </style>
+
+</head>
+
+<body>
+	<h1>Available movies:</h1>
+    <% for( var i = 0; i<movies.amount; i++ ){ %>
+        <li><a href="/cinema/<%=movies.library[i].name%>"> <%=movies.library[i].name%> </a></li>
+    <% } %>
+
+
+</body>

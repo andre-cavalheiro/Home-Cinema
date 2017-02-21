@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cavalheiro's</title>
+
+    <meta charset="utf-8" />
+    <meta name="author" content="Andre Cavalheiro">
+    <meta name="description" content="Cavalheiro's personal home cinema">
+    
+
+    <style type="text/css">
+        #Video1 {
+            position: absolute;
+            top: 50px;
+            left: 120px;
+            border: 5px solid #A0A0A0;
+            display: block;
+            z-index: 99;
+        }
+    </style>
+
+</head>
+
+<body>
+    <p> You're now whatching: <%= id %> </p>
+
+    <video id="Video1" controls autoplay>
+        <source src="../videos/movies/<%=id%>.mp4" type="video/mp4" /> 
+        <source src="../videos/movies/<%=id%>.webm" type="video/webm"/>
+        <source src="../videos/movies/<%=id%>.ogv" type="video/ogg"/>       
+    </video>
+    <a href="../videos/movies/<%=id%>.mp4" download>Download the video</a>
+
+
+</body>
+
+</html>
