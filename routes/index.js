@@ -8,3 +8,5 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+//      document.getElementById('form_id').action;

@@ -4,10 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var fs = require('fs');
+var nt = require('nt');
+
 //Myroutes
 var index = require('./routes/index');
-var users = require('./routes/users');
 var cinema = require('./routes/cinema');
+var torrent = require('./routes/torrent.js');
 
 var app = express();
 
@@ -34,8 +38,8 @@ app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feit
 
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/cinema', cinema);
+app.post('/torrent', torrent);
 
 
 

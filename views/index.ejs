@@ -13,13 +13,37 @@
 
     </style>
 
+    <script type="text/javascript">
+        function form_action(form){
+            file = form.torrentid.value;
+            type = file.substring(file.length-8,file.length);
+            if(type != ".torrent"){console.log("Não devia submeter");return false;}
+        }
+    </script>
 </head>
 
+
 <body>
-	<h1>Available movies:</h1>
+    <h1>Home Cinema </h1>
+    <h4>By Cavalheiro</h4>
+
+	<h2>Download Movies:</h2>
+    <form id="gettorrent" method="POST" action="" onsubmit="return form_action(this);">
+        Insert .torrent file:
+        <input type="text" name="torrentid" value=".torrent" ><br>
+        <input type="submit"><br>
+    </form>
+
+    
+    <h2>Available movies:</h2>
     <% for( var i = 0; i<movies.amount; i++ ){ %>
         <li><a href="/cinema/<%=movies.library[i].name%>"> <%=movies.library[i].name%> </a></li>
     <% } %>
+    
+    
+    
+
+    
 
 
 </body>
