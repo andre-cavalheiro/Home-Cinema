@@ -11,7 +11,7 @@ var nt = require('nt');
 //Myroutes
 var index = require('./routes/index');
 var cinema = require('./routes/cinema');
-var torrent = require('./routes/torrent.js');
+var torrent = require('./routes/torrent');
 
 var app = express();
 
@@ -24,7 +24,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false })); //extended=false --> req.body pode ser apenas string ou array
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feito a qualquer pagina ESTÁTICA(static) vai usar aquilo que temos na /public
@@ -39,7 +39,11 @@ app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feit
 
 app.use('/', index);
 app.use('/cinema', cinema);
-app.post('/torrent', torrent);
+app.post('/torrent', urlencodedParser, function(req, res, next) {
+    var data = req.body;
+    res.render('torrent');
+});
+
 
 
 
