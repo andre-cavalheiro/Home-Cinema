@@ -4,9 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var fs = require('fs');
-var nt = require('nt');
 
 //Myroutes
 var index = require('./routes/index');
@@ -25,27 +23,14 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); //extended=false --> req.body pode ser apenas string ou array
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feito a qualquer pagina ESTÁTICA(static) vai usar aquilo que temos na /public
 
-//exemplo de codigo Midlware que será chamado sempre que tentarmos aceder a uma pagina depois de /about/...:
-/*app.use('/about', function(req, res, next) {
-    console.log('Isto será exibido sempre que alguem entrar numa pagina /about/....');
-    console.log('Tentas-te aceder à pagina /about/' + req.url);
-    next();
-});*/
 
 
 app.use('/', index);
 app.use('/cinema', cinema);
-app.post('/torrent', urlencodedParser, function(req, res, next) {
-    var data = req.body;
-    res.render('torrent');
-});
-
-
-
+app.post('/torrent', torrent);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

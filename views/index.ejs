@@ -10,14 +10,15 @@
     <meta name="description" content="Cavalheiro's personal home cinema">
 
     <style type="text/css">
-
     </style>
 
-    <script type="text/javascript">
-        function form_action(form){
+    <script type="text/javascript">        
+        function form_action(form){           
+            /*Verificação se o nome acaba em .torrent:
+
             file = form.torrentid.value;
             type = file.substring(file.length-8,file.length);
-            if(type != ".torrent"){console.log("Não devia submeter");return false;}
+            if(type != ".torrent"){console.log("Não devia submeter");return false;}*/
         }
     </script>
 </head>
@@ -28,11 +29,13 @@
     <h4>By Cavalheiro</h4>
 
 	<h2>Download Movies:</h2>
-    <form id="gettorrent" action="/torrent" method="POST" onsubmit="return form_action(this);">
+    <form id="gettorrent" action="/torrent" method="POST" enctype="multipart/form-data">
         Insert .torrent file:
-        <input type="text" name="torrentid" value=".torrent" >
-        <input type="file" name="torrentfile">
-        <input type="submit">
+        <!-- <input type="text" name="torrentid" value=".torrent" > -->
+        <br>
+        <input type="file" name="torrentfile" id="torrentfile">
+        <br>
+        <input type="submit" value="Uploud">
     </form>
 
 
@@ -48,3 +51,5 @@
 
 
 </body>
+</html>
+
