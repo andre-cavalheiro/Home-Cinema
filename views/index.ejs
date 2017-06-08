@@ -12,14 +12,7 @@
     <style type="text/css">
     </style>
 
-    <script type="text/javascript">        
-        function form_action(form){           
-            /*Verificação se o nome acaba em .torrent:
-
-            file = form.torrentid.value;
-            type = file.substring(file.length-8,file.length);
-            if(type != ".torrent"){console.log("Não devia submeter");return false;}*/
-        }
+    <script type="text/javascript">
     </script>
 </head>
 
@@ -31,7 +24,6 @@
 	<h2>Download Movies:</h2>
     <form id="gettorrent" action="/torrent" method="POST" enctype="multipart/form-data">
         Insert .torrent file:
-        <!-- <input type="text" name="torrentid" value=".torrent" > -->
         <br>
         <input type="file" name="torrentfile" id="torrentfile">
         <br>
