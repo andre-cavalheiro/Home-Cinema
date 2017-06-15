@@ -26,11 +26,10 @@ app.use(bodyParser.urlencoded({ extended: false })); //extended=false --> req.bo
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feito a qualquer pagina ESTÁTICA(static) vai usar aquilo que temos na /public
 
-
-
 app.use('/', index);
 app.use('/cinema', cinema);
 app.post('/torrent', torrent);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
