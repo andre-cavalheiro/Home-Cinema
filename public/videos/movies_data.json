@@ -1,7 +1,1 @@
-{
-    "amount": "1",
-    "library": [{
-        "name": "demo1",
-        "path": "demo1.mp4"
-    }]
-}
+{"amount":3,"library":[{"id":"0","name":"nome","date":"data","magnet":"mangetURL","size":"tamanho","path":"/path/to/file"},{"id":4,"name":"demo","date":"2017:07:04:23:25:40","size":286046429,"path":"/home/andre/Dropbox/Projetos_pessoais/node.js/home_cinema/routes/../public/videos/movies"},{"id":5,"name":"demo","date":"2017:07:04:23:27:23","size":286046429,"path":"/home/andre/Dropbox/Projetos_pessoais/node.js/home_cinema/routes/../public/videos/movies"}]}

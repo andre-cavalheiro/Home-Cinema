@@ -18,16 +18,22 @@
 
 
 <body>
-    <h1>Home Cinema </h1>
-    <h4>By Cavalheiro</h4>
+    <script src="jquery.js"></script>
+
+    <h1>Home Cinema </h1>   <h4>By Cavalheiro</h4>
 
 	<h2>Download Movies:</h2>
     <form id="gettorrent" action="/torrent" method="POST" enctype="multipart/form-data">
-        Insert .torrent file:
+        <h4>Insert .torrent file:</h4>
         <br>
         <input type="file" name="torrentfile" id="torrentfile">
-        <br>
         <input type="submit" value="Uploud">
+    </form>
+    
+    <form id=getmagnet>
+        Insert magnetURL:
+        <input type="text" name="magnetURL" id="magnetURL">
+
     </form>
 
 
@@ -35,19 +41,8 @@
     <% for( var i = 0; i<movies.amount; i++ ){ %>
         <li><a href="/cinema/<%=movies.library[i].name%>"> <%=movies.library[i].name%> </a></li>
     <% } %>
-    
-    Let's see:
-    <br>
-    <%document.a.download%>
-    <br>
-    !!!
-    
-    
-    
-
-    
-
 
 </body>
 </html>
 
+magnetURl
