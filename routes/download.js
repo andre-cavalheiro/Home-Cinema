@@ -23,28 +23,37 @@ function getDateTime() {
 }
 
 module.exports = {
+
     download: function(torrent_id) {
 
         var client = new WebTorrent();
+        var id;
 
         client.add(torrent_id, { path: __dirname + '/../public/videos/movies' }, function(torrent) {
 
-            console.log('Client is downloading:', torrent.infoHash)
+            console.log('Downloading:', torrent.infoHash)
+                //Actualizar ficheiro de filmes
+            fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
+                var n_library = JSON.parse(data);
+                n_library.amount++;
+                id = library.amount;
+                n_library.library.push({ "id": n_library.amount, "name": "demo", "date": getDateTime(), "magnet": torrent.URI, "size": "downloading...", "path": torrent.path })
+                fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
+                    if (err) throw err;
+                });
+            })
 
             torrent.on('done', function() {
                 console.log('torrent download finished:' + torrent.infoHash)
+                    //Guardar tamanho do torrent no ficheiro de filmes
                 fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
-                    if (err) {
-                        console.log('Error: ' + err);
-                    }
                     var n_library = JSON.parse(data);
-                    n_library.amount++;
-                    n_library['library'].push({ "id": n_library.amount - 1, "name": "demo", "date": getDateTime(), "magnet": torrent.URI, "size": torrent.downloaded, "path": torrent.path })
+                    n_library.library[id].size = torrent.downloaded;
                     fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
                         if (err) throw err;
-                        console.log('Ficheiro actualizado');
                     });
                 })
+
             })
         })
 
