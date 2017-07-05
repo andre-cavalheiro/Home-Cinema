@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
-var movie_library = require("../public/videos/movies_data.json");
+//var movie_library = require("../public/videos/movies_data.json");
+var download = require('../routes/download');
+
 
 //Variavel que verificará se o ficheiro é valido ou nao
 var validation = -1;
@@ -26,14 +28,13 @@ var upload = multer({
     },
     fileFilter: function(req, file, cb) {
         name = file.originalname;
-        console.log('Nome:' + file.originalname);
         if ((name.substring(name.length - 8, name.length)) != ".torrent") {
             validation = 0;
             console.log("File rejected: " + (name.substring(name.length - 8, name.length)));
             cb(null, false);
         } else {
             validation = 1;
-            console.log("File accpted");
+            console.log("File accepted");
             cb(null, true);
         }
     }
@@ -42,9 +43,9 @@ var upload = multer({
 
 //Resposta ao POST request (uploud e render)
 router.post('/torrent', upload.any(), function(req, res) {
-    console.log(req.body, 'Body');
-    console.log(req.files[0], 'files');
+    //console.log(req.files[0]);
     res.render('upload.ejs', { valid: validation });
+    download.download(__dirname + "/../public/videos/torrent_files/" + req.files[0].originalname)
 });
 
 module.exports = router;
