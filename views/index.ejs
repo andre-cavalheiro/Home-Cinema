@@ -18,22 +18,22 @@
 
 
 <body>
-    <script src="jquery.js"></script>
-
+    
     <h1>Home Cinema </h1>   <h4>By Cavalheiro</h4>
 
 	<h2>Download Movies:</h2>
     <form id="gettorrent" action="/torrent" method="POST" enctype="multipart/form-data">
-        <h4>Insert .torrent file:</h4>
+        Insert .torrent file:
         <br>
         <input type="file" name="torrentfile" id="torrentfile">
         <input type="submit" value="Uploud">
     </form>
     
-    <form id=getmagnet>
-        Insert magnetURL:
-        <input type="text" name="magnetURL" id="magnetURL">
+    <br>
 
+    <form id=getmagnet action="/torrent_magnet" method="POST">
+        Insert magnetURL:
+        <input type="text" name="magnetURL">
     </form>
 
 

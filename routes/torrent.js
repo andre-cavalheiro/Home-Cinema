@@ -4,12 +4,13 @@ var multer = require('multer');
 var fs = require('fs');
 var movie_library = require("../public/videos/movies_data.json");
 
-
+//Variavel que verificará se o ficheiro é valido ou nao
+var validation = -1;
 
 //Configuração das opções de salvaguarda dos ficheiros:
 var storageOpts = multer.diskStorage({
     destination: function(req, file, cb) {
-        var dest = __dirname + "/../public/videos/";
+        var dest = __dirname + "/../public/videos/torrent_files";
         cb(null, dest);
     },
     filename: function(req, file, cb) {
@@ -17,6 +18,7 @@ var storageOpts = multer.diskStorage({
     }
 });
 
+//Configurações do uploud
 var upload = multer({
     storage: storageOpts,
     limits: {
@@ -26,9 +28,11 @@ var upload = multer({
         name = file.originalname;
         console.log('Nome:' + file.originalname);
         if ((name.substring(name.length - 8, name.length)) != ".torrent") {
+            validation = 0;
             console.log("File rejected: " + (name.substring(name.length - 8, name.length)));
             cb(null, false);
         } else {
+            validation = 1;
             console.log("File accpted");
             cb(null, true);
         }
@@ -36,11 +40,11 @@ var upload = multer({
 });
 
 
-//Resposta ao POST request
+//Resposta ao POST request (uploud e render)
 router.post('/torrent', upload.any(), function(req, res) {
     console.log(req.body, 'Body');
     console.log(req.files[0], 'files');
-    res.end("File uploaded (maybe)");
+    res.render('upload.ejs', { valid: validation });
 });
 
 module.exports = router;

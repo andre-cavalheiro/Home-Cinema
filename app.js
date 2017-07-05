@@ -10,7 +10,6 @@ var fs = require('fs');
 var index = require('./routes/index');
 var cinema = require('./routes/cinema');
 var torrent = require('./routes/torrent');
-
 var app = express();
 
 
@@ -29,6 +28,14 @@ app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feit
 app.use('/', index);
 app.use('/cinema', cinema);
 app.post('/torrent', torrent);
+app.post('/torrent_magnet', function(req, res, next) {
+    var validation = -1
+    if (req.body.magnetURL.length != 0) {
+        validation = 1
+    }
+    console.log(req.body.magnetURL);
+    res.render('upload.ejs', { valid: validation });
+});
 
 
 // catch 404 and forward to error handler
