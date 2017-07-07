@@ -45,7 +45,7 @@ var upload = multer({
 router.post('/torrent', upload.any(), function(req, res) {
     //console.log(req.files[0]);
     res.render('upload.ejs', { valid: validation });
-    download.download(__dirname + "/../public/videos/torrent_files/" + req.files[0].originalname)
+    //?????????????????????????????
 });
 
 module.exports = router;

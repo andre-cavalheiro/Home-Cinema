@@ -10,7 +10,7 @@ var fs = require('fs');
 var index = require('./routes/index');
 var cinema = require('./routes/cinema');
 var torrent = require('./routes/torrent');
-var download = require('./routes/download');
+var test = require('./routes/test');
 var app = express();
 
 
@@ -80,14 +80,12 @@ eventEmitter.on('download', function(torrent_id) {
 app.use('/', index);
 app.use('/cinema', cinema);
 app.post('/torrent', torrent);
-app.post('/torrent_magnet', function(req, res, next) {
-    var validation = -1
-    if (req.body.magnetURL.length != 0) {
-        validation = 1
-        download.download(req.body.magnetURL);
-    }
-    res.render('upload.ejs', { valid: validation });
-});
+app.post('/torrent_magnet', test)
+    /*
+    function(req, res, next) {
+        
+
+    });*/
 
 
 // catch 404 and forward to error handler
