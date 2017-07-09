@@ -11,11 +11,17 @@
 
 <body>
     <% if (valid == 1) { %>
-        <h3>Congratulations!</h3> Your torrent has been received (maybe)
+        <h3>Congratulations!</h3> Your torrent has been received (maybe), enjoy:
+        <video id="Video" controls autoplay>
+        <source src= <%= file %> type="video/mp4" />     
+        </video>
+        
+    
     <% } %>
     
     <% if (valid != 1) { %>
         <h3>Failure</h3> Invalid torrent for some reason.
     <% } %>
+    
     
 </body>

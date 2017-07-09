@@ -12,8 +12,7 @@
     <style type="text/css">
     </style>
 
-    <script type="text/javascript">
-    </script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 
 
@@ -30,10 +29,13 @@
     </form>
     
     <br>
+    <br>
 
-    <form id=getmagnet action="/torrent_magnet" method="POST">
-        Insert magnetURL:
-        <input type="text" name="magnetURL">
+    <iv class = "input">
+    <form id="getmagnet" action="/torrent_magnet" method="POST">
+        <input type="text" name="magnetURL" placeholder="Insert Magnet URL">
+        <button class="display">Stream!</button>
+        <h6>sample: magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21&dn=Genius+S01E01+HDTV+x264-RMTeam&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969</h6>
     </form>
 
 

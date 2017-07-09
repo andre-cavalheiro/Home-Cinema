@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var WebTorrent = require('webtorrent');
-
+var library = require("../public/videos/movies_data.json");
 var download = require('./download');
 
 
@@ -27,28 +27,18 @@ function getDateTime() {
 
 router.post('/torrent_magnet', function(req, res, next) {
     var validation = -1;
-    if (req.body.magnetURL.length == 0) {
-        validation = 0;
+    if (req.body.magnetURL.length != 0) {
+        validation = 1;
     }
 
     var client = new WebTorrent();
-    var id;
+    var id = library.amount + 1;
 
     torrent_id = req.body.magnetURL;
 
     client.add(torrent_id, { path: __dirname + '/../public/videos/movies' }, function(torrent) {
 
         console.log('Downloading:', torrent.infoHash)
-            //Actualizar ficheiro de filmes
-        fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
-            var n_library = JSON.parse(data);
-            id = n_library.amount;
-            n_library.amount++;
-            n_library.library.push({ "id": n_library.amount, "name": "demo", "date": getDateTime(), "magnet": torrent.URI, "size": "downloading...", "path": torrent.path })
-            fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
-                if (err) throw err;
-            });
-        })
 
         //Seleção do filme:
         var index = [-1];
@@ -64,8 +54,7 @@ router.post('/torrent_magnet', function(req, res, next) {
 
             }
         }
-        console.log(index)
-            //Assumir que o maior ficheiro de video dentro da diretoria é o filme que pretendemos:
+        //Assumir que o maior ficheiro de video dentro da diretoria é o filme que pretendemos:
         if (index[0] >= 0) {
             movie_index = 0
             for (var i = 0; i < index.length; i++) {
@@ -77,6 +66,7 @@ router.post('/torrent_magnet', function(req, res, next) {
                 //Streaming
             console.log("Initiating Streaming...")
             movieStream = torrent.files[movie_index].createReadStream();
+            /*
             movieStream.on('open', function() {
                 res.writeHead(206, {
                     "Content-Range": "bytes " + 0 + "-" + torrent.files[movie_index].length + "/" + torrent.files[movie_index].length,
@@ -88,8 +78,13 @@ router.post('/torrent_magnet', function(req, res, next) {
                 //to the client)
                 movieStream.pipe(res);
                 console.log(res.movieStream);
-                res.render('upload.ejs', { valid: validation });
-            });
+                */
+            path = __dirname;
+            path += "/../public/videos/movies/";
+            path += torrent.files[movie_index].path;
+            console.log("path: " + path)
+            res.render('upload.ejs', { valid: validation, file: path });
+
 
             movieStream.on('error', function(err) {
                 res.end(err);
@@ -100,17 +95,15 @@ router.post('/torrent_magnet', function(req, res, next) {
 
         torrent.on('done', function() {
             console.log('torrent download finished:' + torrent.infoHash)
-                //Guardar tamanho do torrent no ficheiro de filmes
+                //Actualizar ficheiro de filmes
             fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
                 var n_library = JSON.parse(data);
-                n_library.library[id - 1].size = torrent.downloaded;
+                n_library.amount++;
+                n_library.library.push({ "id": n_library.amount, "name": torrent.files[movie_index].name, "date": getDateTime(), "magnet": torrent.URI, "size": torrent.downloaded, "path": torrent.path })
                 fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
                     if (err) throw err;
                 });
             })
-
-
-
         })
     })
 
