@@ -8,41 +8,30 @@
     <meta name="author" content="Andre Cavalheiro">
     <meta name="description" content="Cavalheiro's personal home cinema">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    
-
-    <style type="text/css">
-        #Video1 {
-            position: absolute;
-            top: 50px;
-            left: 120px;
-            border: 5px solid #A0A0A0;
-            display: block;
-            z-index: 99;
-        }
-    </style>
 
 </head>
 
 <body>
+    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
     <input type="button" id="Home" value="Home">
     <a href="/">Home</a>
 
     
     <p> You're now whatching: <%= movie.name %> </p>
-    <%var source = "/videos/movies/" +  movie.path%>
-    <video id="Video1" controls autoplay>
+    <%var source = movie.path%>
+    <video id="Video1" width="320" height="240"controls autoplay>
         <source src="<%=source%>" type="video/mp4" />
         <source src="<%=source%>" type="video/mkv" />  
         <source src="<%=source%>" type="video/avi" />     
     </video>
+    <br>
     <a href="<%=source%>" download>Download the video</a>
 
 
 </body>
 </html>
 
-<script>
-//COMO È QUE NAO FUNCIONA??
+<script type="text/javascript">
 
 $('#Home').click(function(){
         $.ajax({

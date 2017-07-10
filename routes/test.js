@@ -98,7 +98,7 @@ router.post('/torrent_magnet', function(req, res, next) {
             fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
                 var n_library = JSON.parse(data);
                 n_library.amount++;
-                n_library.library.push({ "id": n_library.amount, "name": torrent.files[movie_index].name, "date": getDateTime(), "magnet": torrent.URI, "size": torrent.downloaded, "path": torrent.files[movie_index].path })
+                n_library.library.push({ "id": n_library.amount, "name": torrent.files[movie_index].name, "date": getDateTime(), "magnet": torrent.URI, "size": torrent.downloaded, "path": path })
                 fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
                     if (err) throw err;
                 });

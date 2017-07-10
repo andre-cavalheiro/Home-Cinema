@@ -14,7 +14,8 @@
         <h3>Congratulations!</h3> Your torrent has been received (maybe), enjoy:
         <% console.log(file) %> 
         <video id="Video" controls autoplay>
-            <source src= <%=file%> type="video/mp4" />         
+            <%path = "/videos/movies/" + <%=file%> ; %>
+            <source src=<%=path%> type="video/mp4" />         
         </video>
         
     

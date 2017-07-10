@@ -19,23 +19,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
+//app.use->Adiciona middleware ao nosso programa seja ele geral, ou especificado(ver pagina stackoverfow nos favoritos node.js)
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); //extended=false --> req.body pode ser apenas string ou array
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feito a qualquer pagina ESTÁTICA(static) vai usar aquilo que temos na /public
+app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feito a qualquer pagina vai usar aquilo que temos na /public t.q: http://localhost:3000/images
 
 
 app.use('/', index);
-app.use('/cinema', cinema);
+app.use('/watch', cinema);
 app.post('/torrent', torrent);
 app.post('/torrent_magnet', test)
-    /*
-    function(req, res, next) {
-        
-
-    });*/
 
 
 // catch 404 and forward to error handler
