@@ -12,8 +12,9 @@
 <body>
     <% if (valid == 1) { %>
         <h3>Congratulations!</h3> Your torrent has been received (maybe), enjoy:
+        <% console.log(file) %> 
         <video id="Video" controls autoplay>
-        <source src= <%= file %> type="video/mp4" />     
+            <source src= <%=file%> type="video/mp4" />         
         </video>
         
     
