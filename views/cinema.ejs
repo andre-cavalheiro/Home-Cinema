@@ -13,32 +13,24 @@
 
 <body>
     <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
-    <input type="button" id="Home" value="Home">
-    <a href="/">Home</a>
-
+    <form id ="home_button"  method="get" action="/">
+        <button type="submit">Home</button>
+    </form>
     
-    <p> You're now whatching: <%= movie.name %> </p>
-    <%var source = movie.path%>
-    <video id="Video1" width="320" height="240"controls autoplay>
+    <p> You're now whatching: <h4> <%= movie.name %> </h4> </p>
+    <%var source = "/videos/movies/" + movie.path%>
+    <video id="Video1" controls autoplay>
         <source src="<%=source%>" type="video/mp4" />
         <source src="<%=source%>" type="video/mkv" />  
         <source src="<%=source%>" type="video/avi" />     
     </video>
     <br>
-    <a href="<%=source%>" download>Download the video</a>
+    <a href="<%=source%>" download> Download the video</a>
 
 
 </body>
 </html>
 
-<script type="text/javascript">
 
-$('#Home').click(function(){
-        $.ajax({
-            url:"/",
-            type:"get"
-        })
-})
-</script>
 
     

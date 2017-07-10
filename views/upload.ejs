@@ -10,11 +10,15 @@
 </head>
 
 <body>
+    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
+    <form action="/" method="GET" enctype="multipart/form-data">
+        <input type="submit" value="Home">
+    </form>
+
     <% if (valid == 1) { %>
-        <h3>Congratulations!</h3> Your torrent has been received (maybe), enjoy:
-        <% console.log(file) %> 
+        <h3>Congratulations!</h3> Your torrent has been received (maybe), enjoy: 
         <video id="Video" controls autoplay>
-            <%path = "/videos/movies/" + <%=file%> ; %>
+            <%path = "/videos/movies/" + file  %>
             <source src=<%=path%> type="video/mp4" />         
         </video>
         
@@ -23,7 +27,7 @@
     
     <% if (valid != 1) { %>
         <h3>Failure</h3> Invalid torrent for some reason.
-    <% } %>
-    
-    
+    <% } %> 
 </body>
+
+

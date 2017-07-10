@@ -79,8 +79,7 @@ router.post('/torrent_magnet', function(req, res, next) {
                 movieStream.pipe(res);
                 console.log(res.movieStream);
                 */
-            var path = "/videos/movies/" + torrent.files[movie_index].path;
-            path = path.replace(/ /g, '%20')
+            var path = torrent.files[movie_index].path.replace(/ /g, '%20')
             console.log("path: " + path)
             res.render('upload.ejs', { valid: validation, file: path });
 

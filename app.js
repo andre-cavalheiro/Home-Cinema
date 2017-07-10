@@ -10,7 +10,7 @@ var fs = require('fs');
 var index = require('./routes/index');
 var cinema = require('./routes/cinema');
 var torrent = require('./routes/torrent');
-var test = require('./routes/test');
+var torrent_magnet = require('./routes/torrent_magnet');
 var app = express();
 
 
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public'))); //Qualquer request feit
 app.use('/', index);
 app.use('/watch', cinema);
 app.post('/torrent', torrent);
-app.post('/torrent_magnet', test)
+app.post('/torrent_magnet', torrent_magnet)
 
 
 // catch 404 and forward to error handler
