@@ -9,17 +9,20 @@
 	<meta name="author" content="Andre Cavalheiro">
     <meta name="description" content="Cavalheiro's personal home cinema">
 
-    <style type="text/css">
-    </style>
-
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
 </head>
 
 
 <body>
     
-    <h1>Home Cinema </h1>   <h4>By Cavalheiro</h4>
+    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
+    
+    <input type="button" id="Download_b" value="Download">
+    <input type="button" id="Library_b" value="Library">
 
+    <div id=Download_d>
 	<h2>Download Movies:</h2>
     <form id="gettorrent" action="/torrent" method="POST" enctype="multipart/form-data">
         Insert .torrent file:
@@ -28,21 +31,51 @@
         <input type="submit" value="Uploud">
     </form>
     
+    
     <br>
     <br>
-
+    
     <form id="getmagnet" action="/torrent_magnet" method="POST">
         <input type="text" name="magnetURL" placeholder="Insert Magnet URL">
         <button class="display">Stream!</button>
-        <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21&dn=Genius+S01E01+HDTV+x264-RMTeam&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969</h6>
+        <br>
     </form>
-        
-    <h2>Available movies:</h2>
+    <input type="button" id ="sample_b" value="sample">
+    <div id=sample_d>
+    <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21&dn=Genius+S01E01+HDTV+x264-RMTeam&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969 </h6>   
+    </div>
+    </div>
+    
+    <div id="Library_d">
+    <h2>Movie Library:</h2>
     <% for( var i = 0; i<movies.amount; i++ ){ %>
-        <li><a href="/cinema/<%=movies.library[i].name%>"> <%=movies.library[i].name%> </a></li>
+        <li><a href="/cinema/<%=movies.library[i].id %>"> <%=movies.library[i].name%> </a></li>
     <% } %>
-
+    </div>
 
 </body>
 </html>
 
+<script>
+        $('#Download_d').hide();
+        $('#Library_d').hide();
+        $('#Download_b').click(function(){
+            $('#Download_d').show();
+            $('#sample_d').hide();
+            $('#Library_d').hide();
+        })
+        $('#sample_b').click(function(){
+            if($('#sample_d').is(":visible") ){
+                $('#sample_d').hide()
+            }
+            else{
+                $('#sample_d').show()
+            }
+            
+        })
+        $('#Library_b').click(function(){
+            $('#Download_d').hide();
+            $('#Library_d').show();
+        })
+    </script>
+    

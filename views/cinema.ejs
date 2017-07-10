@@ -7,6 +7,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Andre Cavalheiro">
     <meta name="description" content="Cavalheiro's personal home cinema">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     
 
     <style type="text/css">
@@ -23,14 +24,32 @@
 </head>
 
 <body>
-    <p> You're now whatching: <%= id %> </p>
+    <input type="button" id="Home" value="Home">
+    <a href="/">Home</a>
 
+    
+    <p> You're now whatching: <%= movie.name %> </p>
+    <%var source = "/videos/movies/" +  movie.path%>
     <video id="Video1" controls autoplay>
-        <source src="<%=id%>.mp4" type="video/mp4" />     
+        <source src="<%=source%>" type="video/mp4" />
+        <source src="<%=source%>" type="video/mkv" />  
+        <source src="<%=source%>" type="video/avi" />     
     </video>
-    <a href="<%=id%>.mp4" download>Download the video</a>
+    <a href="<%=source%>" download>Download the video</a>
 
 
 </body>
-
 </html>
+
+<script>
+//COMO È QUE NAO FUNCIONA??
+
+$('#Home').click(function(){
+        $.ajax({
+            url:"/",
+            type:"get"
+        })
+})
+</script>
+
+    
