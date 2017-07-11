@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www "
+    "start": "nodemon ./bin/www --ignore 'public/videos/movies_data.json'"
   },
   "dependencies": {
     "body-parser": "^1.17.2",

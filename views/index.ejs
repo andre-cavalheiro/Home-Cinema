@@ -51,7 +51,6 @@
         <h2>Movie Library:</h2>
         <ul>
             <% for( var i = (movies.amount-1); i>=0; i-- ){ %>
-            <%console.log(i + "-->" + movies)%>
                 <li> <a href="/watch/<%=movies.library[i].id %>"><%=movies.library[i].name%></a></li>
             <% } %>
         </ul>

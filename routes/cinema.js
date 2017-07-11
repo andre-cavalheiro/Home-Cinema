@@ -1,6 +1,8 @@
 var express = require('express');
+var fs = require('fs');
 var router = express.Router();
-var library = require("../public/videos/movies_data.json");
+
+var library = fs.readFileSync(__dirname + "/../public/videos/movies_data.json", "utf8")
 
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {

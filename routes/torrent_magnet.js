@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var WebTorrent = require('webtorrent');
-var library = require("../public/videos/movies_data.json");
-var download = require('./download');
-
 
 
 function getDateTime() {
@@ -32,7 +29,6 @@ router.post('/torrent_magnet', function(req, res, next) {
     }
 
     var client = new WebTorrent();
-    var id = library.amount + 1;
 
     torrent_id = req.body.magnetURL;
 
@@ -66,27 +62,21 @@ router.post('/torrent_magnet', function(req, res, next) {
                 //Streaming
             console.log("Initiating Streaming...")
             movieStream = torrent.files[movie_index].createReadStream();
-            /*
-            movieStream.on('open', function() {
-                res.writeHead(206, {
-                    "Content-Range": "bytes " + 0 + "-" + torrent.files[movie_index].length + "/" + torrent.files[movie_index].length,
-                    "Accept-Ranges": "bytes",
-                    "Content-Length": torrent.files[movie_index].length,
-                    "Content-Type": "video/mp4"
+
+
+            fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
+                var n_library = JSON.parse(data);
+                n_library.amount++;
+                id = n_library.amount;
+                n_library.library.push({ "id": n_library.amount, "name": torrent.files[movie_index].name, "date": getDateTime(), "magnet": torrent.magnetURI, "path": torrent.files[movie_index].path.replace(/ /g, '%20') })
+                fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
+                    if (err) throw err;
                 });
-                // This just pipes the read stream to the response object (which goes 
-                //to the client)
-                movieStream.pipe(res);
-                console.log(res.movieStream);
-                */
-            var path = torrent.files[movie_index].path.replace(/ /g, '%20')
-            console.log("path: " + path)
-            res.render('upload.ejs', { valid: validation, file: path });
+            })
+
+            res.render('upload.ejs', { valid: validation, magnet: torrent.magnetURI });
 
 
-            movieStream.on('error', function(err) {
-                res.end(err);
-            });
         } else {
 
         }
@@ -96,8 +86,8 @@ router.post('/torrent_magnet', function(req, res, next) {
                 //Actualizar ficheiro de filmes
             fs.readFile(__dirname + "/../public/videos/movies_data.json", 'utf8', function(err, data) {
                 var n_library = JSON.parse(data);
-                n_library.amount++;
-                n_library.library.push({ "id": n_library.amount, "name": torrent.files[movie_index].name, "date": getDateTime(), "magnet": torrent.URI, "size": torrent.downloaded, "path": path })
+                for (var i = (n_library.amount - 1); n_library.library[i].name != torrent.files[movie_index].name; i--);
+                n_library.library[i].size = torrent.downloaded;
                 fs.writeFile(__dirname + "/../public/videos/movies_data.json", JSON.stringify(n_library), 'utf8', function(err) {
                     if (err) throw err;
                 });

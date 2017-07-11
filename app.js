@@ -32,6 +32,47 @@ app.use('/', index);
 app.use('/watch', cinema);
 app.post('/torrent', torrent);
 app.post('/torrent_magnet', torrent_magnet)
+app.get('/stream/:magnet', function(req, res, next) {
+    try {
+        //var torrent = client.get(req.params.magnet);
+        var torrent = client.get("magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21&dn=Genius+S01E01+HDTV+x264-RMTeam&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969");
+        var library = fs.readFileSync(__dirname + "/../public/videos/movies_data.json", "utf8")
+            //Obter maior ficheiro
+        var file;
+        for (i = 0; i < torrent.files.length; i++) {
+            if (!file || file.length < torrent.files[i].length) {
+                file = torrent.files[i];
+            }
+        }
+        console.log("Ficheiro selecionado: " + file.name);
+        var total = file.length;
+
+        if (typeof req.headers.range != 'undefined') {
+            var range = req.headers.range;
+            var parts = range.replace(/bytes=/, "").split("-");
+            var partialstart = parts[0];
+            var partialend = parts[1];
+            var start = parseInt(partialstart, 10);
+            var end = partialend ? parseInt(partialend, 10) : total - 1;
+            var chunksize = (end - start) + 1;
+        } else {
+            var start = 0;
+            var end = total;
+        }
+
+        var stream = file.createReadStream({ start: start, end: end });
+        res.writeHead(206, {
+            'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunksize,
+            'Content-Type': 'video/mp4'
+        });
+        stream.pipe(res);
+    } catch (err) {
+        res.status(500).send('Error: ' + err.toString());
+    }
+
+})
 
 
 // catch 404 and forward to error handler

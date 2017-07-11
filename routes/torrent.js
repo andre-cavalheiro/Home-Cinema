@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
-//var movie_library = require("../public/videos/movies_data.json");
-var download = require('../routes/download');
 
 
 //Variavel que verificará se o ficheiro é valido ou nao

@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var library = require("../public/videos/movies_data.json");
-
-var concat = require('concat-stream')
-
+var fs = require('fs');
+var library = fs.readFileSync(__dirname + "/../public/videos/movies_data.json", "utf8")
 
 
 router.get('/', function(req, res, next) {
