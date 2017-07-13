@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home_cinema</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset="utf-8" />
+
+	<meta name="author" content="Andre Cavalheiro">
+  <meta name="description" content="Cavalheiro's personal home cinema">
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
+</head>
+  <body>
+    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
+    <form id ="home_button"  method="get" action="/">
+        <button type="submit">Home</button>
+    </form>
+    <br>
+    <% var video = "/stream/" + infohash +".mkv" %>
+    <div class="video">
+          <video width="640" height="360" autoplay preload controls type="video/mp4" src=<%=video%> style="background:black"></video>
+          <br>
+      </div>
+  </body>
+</html>

@@ -4,10 +4,10 @@
 <head>
     <title>Home_cinema</title>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
-    <meta charset="utf-8" />
-    
+  <meta charset="utf-8" />
+
 	<meta name="author" content="Andre Cavalheiro">
-    <meta name="description" content="Cavalheiro's personal home cinema">
+  <meta name="description" content="Cavalheiro's personal home cinema">
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
@@ -16,60 +16,41 @@
 
 
 <body>
-    
+
         <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
-    
-        <input type="button" id="Download_b" value="Download">
-        <input type="button" id="Library_b" value="Library">
 
-    <div id=Download_d>
-	    <h2>Download Movies:</h2>
-        <form id="gettorrent" action="/torrent" method="POST" enctype="multipart/form-data">
-            Insert .torrent file:
-            <br>
-            <input type="file" name="torrentfile" id="torrentfile">
-            <input type="submit" value="Uploud">
-        </form>
-    
-    
-        <br>    
-        <br>    
-    
-        <form id="getmagnet" action="/torrent_magnet" method="POST">
-            <input type="text" name="magnetURL" placeholder="Insert Magnet URL">
-            <button id=stream>Stream!</button>
-            <br>
-        </form>
+        <div id='magnet'>
+
+            <input type="text" id="magnetURI" placeholder="Insert Magnet URL">
+            <button id=uploud>Uploud</button>
+        </div>
+        <br>
         <input type="button" id ="sample_b" value="sample">
-    
-        <div id=sample_d>
-            <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21&dn=Genius+S01E01+HDTV+x264-RMTeam&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969 </h6>   
+        <h6 id=sample_d>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21 </h6>
+
+
+        <div id='success'>
+          <h3>We have received your Magnet link!</h3>  <a href="www.google.pt" id=stream >Stream!</a>
         </div>
-    </div>
- 
-    <div id="Library_d">
-        <h2>Movie Library:</h2>
-        <ul>
-            <% for( var i = (movies.amount-1); i>=0; i-- ){ %>
-                <li> <a href="/watch/<%=movies.library[i].id %>"><%=movies.library[i].name%></a></li>
-            <% } %>
-        </ul>
+
+        <div id='failure'>
+          <h3>Not a valid Magnet!</h3>
+        </div>
+
+        <div class="video" style="display:none">
+          <video width="640" height="360" autoplay preload controls type="video/mp4" src="" style="background:black"></video>
+          <br>
         </div>
 
     </div>
-
 </body>
 </html>
 
 <script>
-        $('#Download_d').hide();
-        $('#Library_d').hide();
-        $('#Display').hide();
-        $('#Download_b').click(function(){
-            $('#Download_d').show();
-            $('#sample_d').hide();
-            $('#Library_d').hide();
-        })
+        $('#sample_d').hide();
+        $('#success').hide();
+        $('#failure').hide();
+        //Sample Button
         $('#sample_b').click(function(){
             if($('#sample_d').is(":visible") ){
                 $('#sample_d').hide()
@@ -77,11 +58,34 @@
             else{
                 $('#sample_d').show()
             }
-            
         })
-        $('#Library_b').click(function(){
-            $('#Download_d').hide();
-            $('#Library_d').show();
+        //Receive magnet and ask for download
+        $('#uploud').click(function(event){
+            /*event.preventDefault();              // Stops browser from navigating away from page
+            $('#success').hide();
+            $('#failure').hide();
+
+            if($('#magnetURI').val().split('btih:')[1] == undefined ){
+              $('#failure').show();
+              console.log("Invalid Magnet");
+            }
+            else{
+              var infohash = $('#magnetURI').val().split('btih:')[1].split('&')[0];
+
+              $.get('http://localhost:3000/download/' + infohash, function(){
+                  //This function will only be run if the request is successful
+                  $('#stream').attr("href","/display/"+infohash);
+                  $('#success').show();
+                  console.log("Valid Maget");
+              });
+            }*/
+            var api = 'http://localhost:3000/';
+            window.infoHash = $('input').val().split('btih:')[1].split('&')[0];
+              $.get(api + 'download/' + infoHash, function(data) {
+                  var video_l = api + 'stream/' + infoHash + '.mkv';
+                  $('video').attr('src', video_l);
+                  $('.video').show();
         })
-    </script>
-    
+      })
+
+</script>
