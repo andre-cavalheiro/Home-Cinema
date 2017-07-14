@@ -9,21 +9,11 @@ var webtorrent = require('webtorrent');
 //Myroutes
 var index = require('./routes/index');
 var download = require('./routes/download');
-var display = require('./routes/display');
 var stream = require('./routes/stream');
 
 var app = express();
 
 app.client = new webtorrent();
-
-
-// Allow Cross-Origin requests
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'OPTIONS, POST, GET, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,8 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));  //Qualquer request fei
 
 
 app.use('/', index);
-app.use('/download', download);
-app.use('/display',display);
+app.post('/download', download);
 app.use('/stream',stream);
 
 

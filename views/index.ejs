@@ -10,9 +10,7 @@
   <meta name="description" content="Cavalheiro's personal home cinema">
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-
-</head>
+</head>index_OLD0
 
 
 <body>
@@ -20,72 +18,29 @@
         <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
 
         <div id='magnet'>
-
-            <input type="text" id="magnetURI" placeholder="Insert Magnet URL">
-            <button id=uploud>Uploud</button>
+            <form id="download" method="post" action="/download">
+                <input type="text" name="magnetURI" placeholder="Insert Magnet URL">
+                <button id=uploud>Uploud</button>
+            </form>
         </div>
         <br>
+
         <input type="button" id ="sample_b" value="sample">
         <h6 id=sample_d>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21 </h6>
 
-
-        <div id='success'>
-          <h3>We have received your Magnet link!</h3>  <a href="www.google.pt" id=stream >Stream!</a>
-        </div>
-
-        <div id='failure'>
-          <h3>Not a valid Magnet!</h3>
-        </div>
-
-        <div class="video" style="display:none">
-          <video width="640" height="360" autoplay preload controls type="video/mp4" src="" style="background:black"></video>
-          <br>
-        </div>
-
     </div>
+
+    <script type="text/javascript">
+          $('#sample_d').hide();
+          //Sample Button
+          $('#sample_b').click(function(){
+              if($('#sample_d').is(":visible") ){
+                  $('#sample_d').hide()
+              }
+              else{
+                  $('#sample_d').show()
+              }
+          })
+    </script>
 </body>
 </html>
-
-<script>
-        $('#sample_d').hide();
-        $('#success').hide();
-        $('#failure').hide();
-        //Sample Button
-        $('#sample_b').click(function(){
-            if($('#sample_d').is(":visible") ){
-                $('#sample_d').hide()
-            }
-            else{
-                $('#sample_d').show()
-            }
-        })
-        //Receive magnet and ask for download
-        $('#uploud').click(function(event){
-            /*event.preventDefault();              // Stops browser from navigating away from page
-            $('#success').hide();
-            $('#failure').hide();
-
-            if($('#magnetURI').val().split('btih:')[1] == undefined ){
-              $('#failure').show();
-              console.log("Invalid Magnet");
-            }
-            else{
-              var infohash = $('#magnetURI').val().split('btih:')[1].split('&')[0];
-
-              $.get('http://localhost:3000/download/' + infohash, function(){
-                  //This function will only be run if the request is successful
-                  $('#stream').attr("href","/display/"+infohash);
-                  $('#success').show();
-                  console.log("Valid Maget");
-              });
-            }*/
-            var api = 'http://localhost:3000/';
-            window.infoHash = $('input').val().split('btih:')[1].split('&')[0];
-              $.get(api + 'download/' + infoHash, function(data) {
-                  var video_l = api + 'stream/' + infoHash + '.mkv';
-                  $('video').attr('src', video_l);
-                  $('.video').show();
-        })
-      })
-
-</script>

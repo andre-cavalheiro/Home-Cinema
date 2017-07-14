@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+//Falta verificar se o ficheiro escolhido é de video
 var getLargestFile = function (torrent) {
     var file;
     for(i = 0; i < torrent.files.length; i++) {
@@ -12,17 +13,15 @@ var getLargestFile = function (torrent) {
 };
 
 
-/* GET home page. */
-router.get('/:infohash.mkv', function(req, res, next) {
-    console.log(req.params.infohash);
+router.get('/:infohash', function(req, res, next) {
     var torrent = 'magnet:?xt=urn:btih:' + req.params.infohash;
     var client = req.app.client;
     try {
         var torrent = client.get(torrent);
         var file = getLargestFile(torrent);
+        console.log("Ficheiro escolhido: " +file.name);
         var total = file.length;
         if(typeof req.headers.range != 'undefined') {
-          console.log("Here first");
             var range = req.headers.range;
             var parts = range.replace(/bytes=/, "").split("-");
             var partialstart = parts[0];
@@ -32,9 +31,7 @@ router.get('/:infohash.mkv', function(req, res, next) {
             var chunksize = (end - start) + 1;
         } else {
             var start = 0; var end = total;
-            console.log("OR here first")
         }
-        console.log("And finally here")
         var stream = file.createReadStream({start: start, end: end});
         res.writeHead(206, { 'Content-Range': 'bytes ' + start + '-' + end + '/' + total, 'Accept-Ranges': 'bytes', 'Content-Length':
 chunksize, 'Content-Type': 'video/mkv' });

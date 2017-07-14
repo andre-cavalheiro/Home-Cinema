@@ -9,6 +9,8 @@
 
 #Movies
 *.mp4
+*.avi
+*.mkv
 
 #Imagens
 *.jpg
