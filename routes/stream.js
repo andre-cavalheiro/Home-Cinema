@@ -13,12 +13,14 @@ var getLargestFile = function (torrent) {
 };
 
 
-router.get('/:infohash', function(req, res, next) {
+router.get('/:index/:infohash', function(req, res, next) {
     var torrent = 'magnet:?xt=urn:btih:' + req.params.infohash;
     var client = req.app.client;
     try {
         var torrent = client.get(torrent);
+
         var file = getLargestFile(torrent);
+
         console.log("Ficheiro escolhido: " +file.name);
         var total = file.length;
         if(typeof req.headers.range != 'undefined') {
