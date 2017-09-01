@@ -19,7 +19,7 @@ router.post('/download', function(req, res, next) {
     var client = req.app.client;
     var exists = 0;
     //Verify if the requested torrent is already being downloaded
-    for (var i = 0; i < client.torrents.length; ixx) {
+    for (var i = 0; i < client.torrents.length; i++) {
         if (magnet.indexOf(client.torrents[i].infoHash) != -1) {
             exists = 1;
             torrent = client.torrents[i];
@@ -30,6 +30,7 @@ router.post('/download', function(req, res, next) {
             break;
         }
     }
+    //If not then download it
     if (exists == 0) {
         //Download
         client.add(magnet, { path: __dirname + '/../public/videos/' }, function(torrent) {
