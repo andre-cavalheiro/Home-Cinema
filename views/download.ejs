@@ -19,17 +19,9 @@
         <button type="submit">Home</button>
     </form>
     <br>
-    <% if(state ==1){ %>
-      <% var video = "/stream/" + index + "/" + infohash  %>
-      <% var type = "video/" + type %>
       <div class="video">
-            <video width="640" height="360" autoplay preload controls type="video/mp4" src="<%=video%>" style="background:black"></video>
-            <br>
+            <video id="video" class="video-js" width="640" height="360" autoplay preload controls ></video>
       </div>
-    <% } else{ %>
-      <div class="failure">
-        <h2>An error occurred<h2>
-      </div>
-    <% } %>
+
   </body>
 </html>

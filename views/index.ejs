@@ -17,28 +17,36 @@
 
         <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
 
-        <div id='magnet'>
-            <form id="download" method="post" action="/download">
-                <input type="text" name="magnetURI" placeholder="Insert Magnet URL">
+        <div id='container_1'>
+            <div id='magnet'>
+                <input type="text" id="magnetURI" placeholder="Insert Magnet URL">
                 <button id=uploud>Uploud</button>
-            </form>
-        </div>
-        <br>
+            </div>
+            <br>
 
-        <input type="button" id ="sample_b" value="sample">
-        <div id=sample_d>
-        <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21</h6>       
-        <br>
-        <h6>magnet:?xt=urn:btih:3cd752f7bdca459323616b2495ac36b4907853b4</h6>
-        <br>
-        <h5>Not working:</h5>
-        <br>
-        <h6>magnet:?xt=urn:btih:5576b680bccc56ee5e3e937fbe5016f52f081931</h6>
+            <input type="button" id ="sample_b" value="sample">
+            <div id=sample_d>
+                <h5>Working:</h5>
+                <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21</h6>       
+                <br>
+                <h6>magnet:?xt=urn:btih:3cd752f7bdca459323616b2495ac36b4907853b4</h6>
+                <br>
+                <h5>Not working:</h5>
+                <br>
+                <h6>magnet:?xt=urn:btih:5576b680bccc56ee5e3e937fbe5016f52f081931</h6>
+            </div>
         </div>
-    </div>
+
+
+    <div id="player">
+		<iframe src="about:blank" allowfullscreen width="760px" height="427px"></iframe>
+	</div>
+
 
     <script type="text/javascript">
           $('#sample_d').hide();
+          $('#player').hide();
+          
           //Sample Button
           $('#sample_b').click(function(){
               if($('#sample_d').is(":visible") ){
@@ -48,6 +56,21 @@
                   $('#sample_d').show()
               }
           })
+
+          //Uploud Button
+          $('#uploud').click(function() {
+               var magnetURI = $('#magnetURI').val();
+               $('#magnetURI').val('');
+               $.post('/download',{magnetURI : magnetURI}, function(data){
+                   var infoHash = data.infoHash;
+                   //Em URL tudo o que se segue ao # nao aparecerá para o cliente mas pode ser usado pelo servidor
+                   $('#player iframe').attr('src' , '/player.ejs#' + infoHash)
+                   $('#container_1').hide()
+                   $('#player').show()
+               })
+           })
     </script>
+
 </body>
 </html>
+
