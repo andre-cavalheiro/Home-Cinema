@@ -1,18 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var getLargestFile = function(torrent) {
-    var file;
-    var index;
-    for (i = 0; i < torrent.files.length; i++) {
-        if (!file || file.length < torrent.files[i].length) {
-            file = torrent.files[i];
-            index = i;
-        }
-    }
-    return index;
-};
-
 
 router.post('/download', function(req, res, next) {
     var magnet = req.body.magnetURI;

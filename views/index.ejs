@@ -10,6 +10,8 @@
   <meta name="description" content="Cavalheiro's personal home cinema">
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link href="http://vjs.zencdn.net/4.5/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/4.5/video.js"></script>
 </head>
 
 
@@ -38,14 +40,17 @@
         </div>
 
 
-    <div id="player">
-		<iframe src="about:blank" allowfullscreen width="760px" height="427px"></iframe>
+   <div id="player">
+		<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload width="640" height="360"></video>
 	</div>
+</body>
+</html>
 
-
-    <script type="text/javascript">
+<script type="text/javascript">
           $('#sample_d').hide();
           $('#player').hide();
+
+          var uploud_click = 0;
           
           //Sample Button
           $('#sample_b').click(function(){
@@ -59,18 +64,45 @@
 
           //Uploud Button
           $('#uploud').click(function() {
-               var magnetURI = $('#magnetURI').val();
-               $('#magnetURI').val('');
-               $.post('/download',{magnetURI : magnetURI}, function(data){
-                   var infoHash = data.infoHash;
-                   //Em URL tudo o que se segue ao # nao aparecerá para o cliente mas pode ser usado pelo servidor
-                   $('#player iframe').attr('src' , '/player.ejs#' + infoHash)
-                   $('#container_1').hide()
-                   $('#player').show()
-               })
+              if(uploud_click == 0){
+                  uploud_click = 1;
+                  var magnetURI = $('#magnetURI').val();
+                  $('#magnetURI').val('');
+                  $.post('/download',{magnetURI : magnetURI}, function(data){
+                      var infoHash = data.infoHash;
+                      $('#container_1').hide()
+                      $('#player').show()
+                      uploud_click = 0;
+
+                      $.getJSON('/video_metadata/' + infoHash , function(data) {
+                      var video = videojs('video');
+                      video.duration = function() { return video.theDuration; };
+		              video.start = 0;
+		              video.oldCurrentTime = video.currentTime;
+
+                      video.currentTime = function(time) {
+			            if(time == undefined) {
+				        return video.oldCurrentTime() + video.start;
+			            }
+                        video.start = time;
+			            video.oldCurrentTime(0);
+			            video.src('/video/' + infoHash + '?start=' + time);
+			            setTimeout(function() {
+				        video.play();
+			            }, 100);
+			            return this;
+		             };
+                      video.src('/video/' + infoHash);
+
+                      video.theDuration = Math.floor(data.streams[0].duration);
+		              setTimeout(function() {
+			            $('#loading').fadeOut(300);
+			            $('#player').fadeIn(300);
+		                }, 1000);
+	});
+
+                  })
+              }
            })
     </script>
-
-</body>
-</html>
 
