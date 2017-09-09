@@ -12,6 +12,7 @@ var download = require('./routes/download');
 var stream = require('./routes/stream');
 var video = require('./routes/video');
 var video_metadata = require('./routes/video_metadata');
+var get_files = require('./routes/get_files');
 
 
 var app = express();
@@ -37,7 +38,7 @@ app.post('/download', download);
 app.use('/stream', stream);
 app.use('/video', video)
 app.use('/video_metadata', video_metadata)
-
+app.use('/get_files', get_files);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

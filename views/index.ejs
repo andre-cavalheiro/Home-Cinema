@@ -19,7 +19,7 @@
 
         <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
 
-        <div id='container_1'>
+        <div id='front_page'>
             <div id='magnet'>
                 <input type="text" id="magnetURI" placeholder="Insert Magnet URL">
                 <button id=uploud>Uploud</button>
@@ -28,15 +28,15 @@
 
             <input type="button" id ="sample_b" value="sample">
             <div id=sample_d>
-                <h5>Working:</h5>
+                <h5>Genius S01E01:</h5>
                 <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21</h6>       
-                <br>
-                <h6>magnet:?xt=urn:btih:3cd752f7bdca459323616b2495ac36b4907853b4</h6>
-                <br>
-                <h5>Not working:</h5>
-                <br>
-                <h6>magnet:?xt=urn:btih:5576b680bccc56ee5e3e937fbe5016f52f081931</h6>
             </div>
+        </div>
+
+        <div id="files">
+            <div id="torrent_title"></div>
+            <h3>Select the file that you wish to see</h3>
+            <form id="torrent_files"></form>
         </div>
 
 
@@ -70,10 +70,25 @@
                   $('#magnetURI').val('');
                   $.post('/download',{magnetURI : magnetURI}, function(data){
                       var infoHash = data.infoHash;
-                      $('#container_1').hide()
-                      $('#player').show()
+                      $('#front_page').hide()
                       uploud_click = 0;
+                      
+                      $.get('/get_files/' + infoHash, function(data){
+                          $('#torrent_title').append('<h3>' + data.title + '</h3>');
+                          for(i=0; i<data.files.length;i++){
+                              $('#torrent_files').append('<input type="radio" name="files" value=" ' + i + ' " >' +  data.files[i] + '<br>');
+                          }
+                          $('#torrent_files').append('<input type="submit">');
 
+                          $('#torrent_files').on("submit", function(){
+                                $('input:radio:checked').val()
+                          })
+                      })
+                      /*
+                      $('#files').hide();
+                      $('#player').show();
+                      
+                      //Video + Permitir avançar e recuar no video.
                       $.getJSON('/video_metadata/' + infoHash , function(data) {
                       var video = videojs('video');
                       video.duration = function() { return video.theDuration; };
@@ -99,7 +114,7 @@
 			            $('#loading').fadeOut(300);
 			            $('#player').fadeIn(300);
 		                }, 1000);
-	});
+	                });*/
 
                   })
               }
