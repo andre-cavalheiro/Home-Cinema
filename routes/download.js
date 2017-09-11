@@ -6,14 +6,10 @@ router.post('/download', function(req, res, next) {
     var magnet = req.body.magnetURI;
     var client = req.app.client;
     var exists = 0;
-    //Verify if the requested torrent is already being downloaded
-    for (var i = 0; i < client.torrents.length; i++) {
-        if (magnet.indexOf(client.torrents[i].infoHash) != -1) {
-            torrent = client.torrents[i];
-            exists = 1;
-            res.status(200).send({ infoHash: torrent.infoHash });
-            break;
-        }
+    //Verify if the requested torrent is already being downloaded    
+    if ((torrent = client.get(magnet)) != null) {
+        exists = 1;
+        res.status(200).send({ infoHash: torrent.infoHash });
     }
     //If not then download it
     if (exists == 0) {

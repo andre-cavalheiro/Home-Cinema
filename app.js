@@ -8,12 +8,14 @@ var webtorrent = require('webtorrent');
 
 //Myroutes
 var index = require('./routes/index');
-var download = require('./routes/download');
-var stream = require('./routes/stream');
-var video = require('./routes/video');
-var video_metadata = require('./routes/video_metadata');
-var get_files = require('./routes/get_files');
+var torrent = require('./routes/torrent');
+var display = require('./routes/display');
 
+var download = require('./routes/download');
+var files = require('./routes/files');
+var head = require('./routes/head');
+var video = require('./routes/video');
+var metadata = require('./routes/metadata');
 
 var app = express();
 
@@ -35,10 +37,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Answering requestes
 app.use('/', index);
 app.post('/download', download);
-app.use('/stream', stream);
-app.use('/video', video)
-app.use('/video_metadata', video_metadata)
-app.use('/get_files', get_files);
+app.use('/torrent', torrent);
+app.use('/display', display);
+
+app.use('/stream/head', head);
+app.use('/stream/video', video)
+app.use('/stream/metadata', metadata)
+app.use('/stream/files', files);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

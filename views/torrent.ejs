@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home_cinema</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset="utf-8" />
+
+	<meta name="author" content="Andre Cavalheiro">
+  <meta name="description" content="Cavalheiro's personal home cinema">
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+</head>
+  <body>
+    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
+
+    <div id="files">
+            <div id="torrent_title"></div>
+            <h3>Select the file that you wish to see</h3>
+            <form id="torrent_files"></form>
+    </div>
+
+  </body>
+</html>
+
+  <script type="text/javascript">
+        var url = location.href.split("/");
+        var infoHash = url[4];
+        $.get('/stream/files/' + infoHash, function(data){
+               $('#torrent_title').append('<h3>' + data.title + '</h3>');
+               for(i=0; i<data.files.length;i++){
+                   $('#torrent_files').append('<input type="radio" name="files" value="' + i + '" >' +  data.files[i] + '<br>');
+               }
+               $('#torrent_files').append('<input type="submit" id="stream" value="stream">');                             
+        })
+
+        $('#torrent_files').on('submit', function(e){
+          e.preventDefault();
+          var index = $('input[name=files]:checked', '#torrent_files').val();
+          window.location.replace('http://localhost:3000/display/' + infoHash + '/' + index );     
+        })
+        
+  </script> 
+
+
+

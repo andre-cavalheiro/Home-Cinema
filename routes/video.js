@@ -3,18 +3,6 @@ var router = express.Router();
 var ffmpeg = require('fluent-ffmpeg');
 
 
-var getLargestFile = function(torrent) {
-    var file;
-    var index;
-    for (i = 0; i < torrent.files.length; i++) {
-        if (!file || file.length < torrent.files[i].length) {
-            file = torrent.files[i];
-            index = i;
-        }
-    }
-    return index;
-};
-
 var videoPresets = [{
         quality: '720p',
         video: {
@@ -99,23 +87,24 @@ var getVideoParams = function(quality) {
 };
 
 
-router.get('/:infohash', function(req, res, next) {
-
+router.get('/:infohash/:index', function(req, res, next) {
 
     try {
         var client = req.app.client;
         var torrent = client.get(req.params.infohash)
-        var index = getLargestFile(torrent);
+        var index = req.params.index;
         var params = getVideoParams("720p");
 
         var start = false;
         if (typeof req.query.start != 'undefined' && req.query.start != null) {
             start = parseFloat(req.query.start);
         }
+        console.log("start: ")
+        console.log(start)
 
         res.contentType('webm');
 
-        var command = ffmpeg('http://localhost:' + req.app.port + '/stream/' + index + '/' + req.params.infohash)
+        var command = ffmpeg('http://localhost:' + req.app.port + '/stream/head/' + req.params.infohash + '/' + index)
             .format('webm')
             .size(params.picture.resolution)
             .videoCodec(params.video.codec)

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 
-router.get('/:index/:infohash', function(req, res, next) {
+router.get('/:infohash/:index/', function(req, res, next) {
     var torrent = 'magnet:?xt=urn:btih:' + req.params.infohash;
     var client = req.app.client;
     try {
@@ -11,7 +11,6 @@ router.get('/:index/:infohash', function(req, res, next) {
         var total = file.length;
 
         if (typeof req.headers.range != 'undefined') {
-            console.log("Pedido com range");
             var range = req.headers.range;
             var parts = range.replace(/bytes=/, "").split("-");
             var partialstart = parts[0];
@@ -22,13 +21,11 @@ router.get('/:index/:infohash', function(req, res, next) {
         } else {
             /*Se o HTTP request não tiver um campo "range" então não é possível enviar apenas uma porção dos dados do server para 
             o client (nas experiências ainda nao ocorreu)*/
-            console.log("Pedido sem range");
             var start = 0;
             var end = total;
             var chunksize = total;
         }
         var stream = file.createReadStream({ start: start, end: end });
-        var type = 'video/' + file.name.substring(file.name.length - 3, file.name.length);
         res.writeHead(206, {
             'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
             'Accept-Ranges': 'bytes',

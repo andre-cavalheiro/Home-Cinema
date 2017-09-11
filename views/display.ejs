@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home_cinema</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset="utf-8" />
+
+	<meta name="author" content="Andre Cavalheiro">
+  <meta name="description" content="Cavalheiro's personal home cinema">
+
+  <link href="http://vjs.zencdn.net/4.5/video-js.css" rel="stylesheet">
+  <script src="http://vjs.zencdn.net/4.5/video.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
+
+</head>
+<body>
+    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
+
+    <div id="player">
+		<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload width="640" height="360"></video>
+	</div>
+
+  </body>
+</html>
+
+
+<script type="text/javascript">
+
+          var url = location.href.split("/"); 
+          var infoHash = url[4]; 
+          var index = url[5];
+          //Video + Permitir avançar e recuar no video.
+          $.getJSON('/stream/metadata/' + infoHash + '/' + index, function(data) {
+		          var video = videojs('video');
+		          video.duration = function() { return video.theDuration; };
+		          video.start = 0;
+		          video.oldCurrentTime = video.currentTime;
+		          video.currentTime = function(time) {
+		          	/*if(time == undefined) {
+		          		return video.oldCurrentTime() + video.start;
+		          	}*/
+		          	video.start = time;
+		          	video.oldCurrentTime(0);
+		          	video.src('/stream/video/' + infoHash + '/' + index + '?start=' + time);
+		          	setTimeout(function() {
+		          		video.play();
+		          	}, 100);
+		          	return this;
+		          };
+		          video.src('/stream/video/' + infoHash + '/' + index);
+		          video.theDuration = Math.floor(data.streams[0].duration);
+	        });
+
+</script>
+
