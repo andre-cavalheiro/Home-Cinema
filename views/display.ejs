@@ -39,9 +39,9 @@
 		          video.start = 0;
 		          video.oldCurrentTime = video.currentTime;
 		          video.currentTime = function(time) {
-		          	/*if(time == undefined) {
+		          	if(time == undefined) {
 		          		return video.oldCurrentTime() + video.start;
-		          	}*/
+		          	}
 		          	video.start = time;
 		          	video.oldCurrentTime(0);
 		          	video.src('/stream/video/' + infoHash + '/' + index + '?start=' + time);
