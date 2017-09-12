@@ -87,11 +87,11 @@ var getVideoParams = function(quality) {
 };
 
 
-router.get('/:infohash/:index', function(req, res, next) {
+router.get('/:infoHash/:index', function(req, res, next) {
 
     try {
         var client = req.app.client;
-        var torrent = client.get(req.params.infohash)
+        var torrent = client.get(req.params.infoHash)
         var index = req.params.index;
         var params = getVideoParams("720p");
 
@@ -104,7 +104,7 @@ router.get('/:infohash/:index', function(req, res, next) {
 
         res.contentType('webm');
 
-        var command = ffmpeg('http://localhost:' + req.app.port + '/stream/head/' + req.params.infohash + '/' + index)
+        var command = ffmpeg('http://localhost:' + req.app.port + '/stream/head/' + req.params.infoHash + '/' + index)
             .format('webm')
             .size(params.picture.resolution)
             .videoCodec(params.video.codec)

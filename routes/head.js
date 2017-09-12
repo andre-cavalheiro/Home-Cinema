@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 
-router.get('/:infohash/:index/', function(req, res, next) {
-    var torrent = 'magnet:?xt=urn:btih:' + req.params.infohash;
+router.get('/:infoHash/:index/', function(req, res, next) {
+    var torrent = 'magnet:?xt=urn:btih:' + req.params.infoHash;
     var client = req.app.client;
     try {
         var torrent = client.get(torrent);

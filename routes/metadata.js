@@ -3,12 +3,12 @@ var router = express.Router();
 var ffmpeg = require('fluent-ffmpeg');
 
 
-router.get('/:infohash/:index', function(req, res, next) {
+router.get('/:infoHash/:index', function(req, res, next) {
     try {
         var client = req.app.client;
-        var torrent = client.get(req.params.infohash)
+        var torrent = client.get(req.params.infoHash)
         var index = req.params.index;
-        var command = ffmpeg('http://localhost:' + req.app.port + '/stream/head/' + req.params.infohash + '/' + index)
+        var command = ffmpeg('http://localhost:' + req.app.port + '/stream/head/' + req.params.infoHash + '/' + index)
             .ffprobe(0, function(err, data) {
                 console.log(data)
                 res.send(data);

@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var webtorrent = require('webtorrent');
+var rimraf = require('rimraf');
 
 //Myroutes
 var index = require('./routes/index');
@@ -17,10 +18,14 @@ var head = require('./routes/head');
 var video = require('./routes/video');
 var metadata = require('./routes/metadata');
 
+
 var app = express();
 
-app.client = new webtorrent();
+//global varibles 
 app.port = 3000;
+app.client = new webtorrent();
+app.max_time = 3600000; //1 hour
+app.library = [{ infoHash: -1, time: -1, limit: -1 }]
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +44,15 @@ app.use('/', index);
 app.post('/download', download);
 app.use('/torrent', torrent);
 app.use('/display', display);
+app.get('/boop/:infoHash', function(req, res) {
+    var now = Date.now();
+    for (i = 0; i < app.library.length; i++) {
+        if (app.library[i].infoHash = req.params.infoHash) {
+            app.library[i].time = now;
+        }
+    }
+    res.status(200).send("Time uplouded");
+})
 
 app.use('/stream/head', head);
 app.use('/stream/video', video)
@@ -46,6 +60,39 @@ app.use('/stream/metadata', metadata)
 app.use('/stream/files', files);
 
 
+
+//Global functions 
+app.removeTorrent = function(infoHash) {
+    var torrent = app.client.get(infoHash);
+    console.log("Eliminate file:")
+    rimraf(path.normalize(torrent.path + torrent.name), function(error) {
+        console.log('Error: ', error);
+    });
+    console.log("clean library")
+    for (i = 0; i < app.library.length; i++) {
+        if (app.library[i].infoHash == infoHash) {
+            app.library[i].infoHash = -1;
+            app.library[i].time = -1;
+            app.library[i].limit = -1;
+        }
+    }
+
+    app.client.remove(infoHash);
+    console.log("Removed")
+}
+
+setInterval(function() {
+    var now = Date.now();
+    for (i = 0; i < app.library.length; i++) {
+        console.log(app.library)
+        if (app.library[i].time > 0) {
+            if ((now - app.library[i].time) > app.library[i].limit) {
+                console.log("Diff: " + (now - app.library[i].time))
+                app.removeTorrent(app.library[i].infoHash);
+            }
+        }
+    }
+}, 1000);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

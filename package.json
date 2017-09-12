@@ -13,6 +13,7 @@
     "express": "^4.15.4",
     "fluent-ffmpeg": "^2.1.2",
     "morgan": "~1.8.1",
+    "rimraf": "^2.6.1",
     "serve-favicon": "^2.4.3",
     "webtorrent": "^0.98.19"
   }
