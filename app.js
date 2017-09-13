@@ -24,7 +24,7 @@ var app = express();
 //global varibles 
 app.port = 3000;
 app.client = new webtorrent();
-app.max_time = 3600000; //1 hour
+app.max_time = 60000 //1min  //3600000 // 1 hour
 app.library = [{ infoHash: -1, time: -1, limit: -1 }]
 
 // view engine setup
@@ -47,7 +47,7 @@ app.use('/display', display);
 app.get('/boop/:infoHash', function(req, res) {
     var now = Date.now();
     for (i = 0; i < app.library.length; i++) {
-        if (app.library[i].infoHash = req.params.infoHash) {
+        if (app.library[i].infoHash == req.params.infoHash) {
             app.library[i].time = now;
         }
     }
