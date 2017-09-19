@@ -6,5 +6,6 @@ For first start, chage to directory of project then run:
 to start normally chage to directory of project then run:
 > npm start
 
-_Requires nodejs and npm_
-_If running on debian based, install nodejs-legacy_
+Then open 127.0.0.1:3000 on your web browser
+
+_Requires the latest versions of nodejs and npm_
