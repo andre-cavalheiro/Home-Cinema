@@ -71,12 +71,10 @@ app.use('/stream/remove/:infoHash', function(req, res) {
 //Global functions
 app.removeTorrent = function(infoHash) {
     var torrent = app.client.get(infoHash);
-    console.log("Eliminate file:")
     try {
     rimraf(path.normalize(torrent.path + torrent.name), function(error) {
         console.log('Error: ', error);
     });
-    console.log("clean library")
     for (i = 0; i < app.library.length; i++) {
         if (app.library[i].infoHash == infoHash) {
             app.library[i].infoHash = -1;
@@ -84,11 +82,8 @@ app.removeTorrent = function(infoHash) {
             app.library[i].limit = -1;
         }
     }
-
     app.client.remove(infoHash);
-    console.log("Removed")
     return 1;
-
   } catch (e) {
       console.log("Error while torrent was being removed");
       return 0;

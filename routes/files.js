@@ -10,7 +10,7 @@ router.get('/:infoHash', function(req, res, next) {
         }
         res.status(200).send({ title: torrent.name, files: files });
     } catch (err) {
-        console.log(err)
+        console.log("Error while submiting files " + err)
         res.status(500).send('Error: ' + err.toString());
     }
 

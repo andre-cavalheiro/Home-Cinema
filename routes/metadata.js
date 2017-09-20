@@ -10,7 +10,6 @@ router.get('/:infoHash/:index', function(req, res, next) {
         var index = req.params.index;
         var command = ffmpeg('http://localhost:' + req.app.port + '/stream/head/' + req.params.infoHash + '/' + index)
             .ffprobe(0, function(err, data) {
-                console.log(data)
                 res.send(data);
             });
     } catch (err) {

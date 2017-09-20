@@ -99,8 +99,6 @@ router.get('/:infoHash/:index', function(req, res, next) {
         if (typeof req.query.start != 'undefined' && req.query.start != null) {
             start = parseFloat(req.query.start);
         }
-        console.log("start: ")
-        console.log(start)
 
         res.contentType('webm');
 
