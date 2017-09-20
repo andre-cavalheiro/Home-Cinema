@@ -19,6 +19,8 @@
 <body>
     <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
 
+		<button id="back" type=button>Back</button> <br><br>
+
     <div id="player">
 		<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload width="640" height="360"></video>
 	</div>
@@ -53,9 +55,14 @@
 		          video.src('/stream/video/' + infoHash + '/' + index);
 		          video.theDuration = Math.floor(data.streams[0].duration);
 	        });
-					
-				setInterval(function() {
-					$.get('/boop/' + infoHash ,function(){	})
-				}, 10000);	
+
+					$("#back").off('click').on("click", function(e){
+							e.preventDefault();
+							window.location.replace('http://localhost:3000/torrent/' + infoHash );
+					})
+
+					setInterval(function() {
+						$.get('/boop/' + infoHash ,function(){	})
+					}, 10000);	
 </script>
 

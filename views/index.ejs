@@ -21,24 +21,25 @@
 
         <div id="error"> <h2><font color="red">Invalid magnet link, please refresh the page</font></h2></div>
 
-        <div id='front_page'>
+        <div class='front_page'>
             <form id='magnet'>
                 <input type="text" id="magnetURI" placeholder="Insert Magnet link">
                 <input type="submit" value="Uploud">
-            </div>
+            </form>
             <br>
 
-            <input type="button" id ="sample_b" value="sample">
-            <div id=sample_d>
+            <input type="button" id ="sample_b" class='front_page' value="sample">
+            <div id=sample_d class='front_page'>
                 <h5>Genius S01E01:</h5>
                 <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21</h6>   
                  <h5>Wonder woman:</h5>
                 <h6>magnet:?xt=urn:btih:5d07a63238a6af6d9eedfa7739e382efbab280cf</h6>
-                 
-
-    
             </div>
         </div>
+
+        <div class="loading">
+				<p><img src="/images/loading.gif" /></p>
+		</div>
 
 
 </body>
@@ -47,37 +48,37 @@
 <script type="text/javascript">
           $('#error').hide();
           $('#sample_d').hide();
+          $('.loading').hide();
           
                    
           //Sample Button
-          $('#sample_b').click(function(){
+          $('#sample_b').off('click')on('click', function(){
               if($('#sample_d').is(":visible") ){
-                  $('#sample_d').hide()
+                  $('#sample_d').stop(true,true).fadeOut(300);
               }
               else{
-                  $('#sample_d').show()
+                  $('#sample_d').stop(true,true).fadeIn(300);
               }
           })
     
           //Uploud Button
           $('#magnet').off('submit').on('submit', function(e){ 
-              e.preventDefault();    
+              e.preventDefault();
+              $('.front_page ').stop(true,true).fadeOut(300);
+              $('.loading').stop(true,true).fadeIn(300);    
 
               var magnetURI = $('#magnetURI').val();
               $('#magnetURI').val('');
-
+              
               $.post('/download',{magnetURI : magnetURI}, function(data){
                 var infoHash = data.infoHash;
-                $('#error').hide();
-                $('#front_page').hide()
-                window.location.replace('http://localhost:3000/torrent/' + infoHash );               
+                var url = location.href;
+                window.location.replace( url + 'torrent/' + infoHash );               
               })
-              /*.fail(function(err){
-                $('#front_page ').hide();
-                $('#sample_b').hide();  
-                $('#error').show();
-              })*/
-              
+              .fail(function(err){
+                $('.loading').stop(true,true).fadeOut(300);
+                $('#error').stop(true,true).fadeIn(300);
+              })         
            })
     
 </script>
