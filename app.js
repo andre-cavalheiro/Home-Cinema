@@ -21,7 +21,7 @@ var metadata = require('./routes/metadata');
 
 var app = express();
 
-//global varibles 
+//global varibles
 app.port = 3000;
 app.client = new webtorrent();
 app.max_time = 60000 //1min  //3600000 // 1 hour
@@ -30,13 +30,14 @@ app.library = [{ infoHash: -1, time: -1, limit: -1 }]
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 //Answering requestes
 app.use('/', index);
@@ -57,7 +58,7 @@ app.use('/stream/head', head);
 app.use('/stream/video', video)
 app.use('/stream/metadata', metadata)
 app.use('/stream/files', files);
-app.get('/stream/remove/:infoHash', function(req, res) {
+app.use('/stream/remove/:infoHash', function(req, res) {
     var remove = app.removeTorrent(req.params.infoHash);
     if (remove == 1) {
         res.status(200).send("File removed")
@@ -67,30 +68,31 @@ app.get('/stream/remove/:infoHash', function(req, res) {
 })
 
 
-//Global functions 
+//Global functions
 app.removeTorrent = function(infoHash) {
     var torrent = app.client.get(infoHash);
     console.log("Eliminate file:")
     try {
-        rimraf(path.normalize(torrent.path + torrent.name), function(error) {
-            console.log('Error: ', error);
-        });
-        console.log("clean library")
-        for (i = 0; i < app.library.length; i++) {
-            if (app.library[i].infoHash == infoHash) {
-                app.library[i].infoHash = -1;
-                app.library[i].time = -1;
-                app.library[i].limit = -1;
-            }
+    rimraf(path.normalize(torrent.path + torrent.name), function(error) {
+        console.log('Error: ', error);
+    });
+    console.log("clean library")
+    for (i = 0; i < app.library.length; i++) {
+        if (app.library[i].infoHash == infoHash) {
+            app.library[i].infoHash = -1;
+            app.library[i].time = -1;
+            app.library[i].limit = -1;
         }
-        app.client.remove(infoHash);
-        console.log("Removed")
-        return 1;
-
-    } catch (e) {
-        console.log("Error while torrent was being removed");
-        return 0;
     }
+
+    app.client.remove(infoHash);
+    console.log("Removed")
+    return 1;
+
+  } catch (e) {
+      console.log("Error while torrent was being removed");
+      return 0;
+  }
 }
 
 setInterval(function() {
@@ -105,7 +107,6 @@ setInterval(function() {
         }
     }
 }, 1000);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
