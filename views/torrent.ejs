@@ -24,7 +24,29 @@
 
     <br>
      <input type="button" id="delete" value="Delete">
-    <br>
+    <br><br>
+
+    <form id=mod_time>
+        Administrators only: I want to save this torrent for:
+        <Select id="amount">
+          <option value="" disabled selected>Amount</option>
+          <option value="1">1 </option>
+          <option value="2">2 </option>
+          <option value="3">3  </option>
+          <option value="4">4 </option>
+          <option value="5">5 </option>
+        </Select>
+
+        <Select id="time">
+          <option value="" disabled selected>Time</option>
+          <option value="1">days </option>
+          <option value="2">week</option>
+          <option value="3">indefinitely</option>
+        </Select>
+
+        <input type="submit" id="change" value="Change Time">'
+    </form>
+
 
   </body>
 </html>
@@ -48,31 +70,18 @@
 
         $('#delete').off('click').on('click', function(e){
            e.preventDefault();
-           $.get('/stream/remove/' + infoHash, function(data){
+           $.get('/remove/' + infoHash, function(data){
              window.location.replace(url[0] + '//' + url[2]);
            });
          })
 
-         /*
-         <form id=mod_time>
-       Administrators only: I want to save this torrent for
-       <Select>
-         <option value="1">1 </option>
-         <option value="2">2 </option>
-         <option value="3">3  </option>
-         <option value="4">4 </option>
-       </Select>
-       <input type="submit" id="change" value="change">'
-     </form>
-     <Select>
-         <option value="1">1 </option>
-         <option value="2">2 </option>
-         <option value="3">3  </option>
-         <option value="4">4 </option>
-       </Select>
-       <input type="submit" id="change" value="change">'
-     </form>
-     */
+         $('#mod_time').off('submit').on('submit', function(e){
+           e.preventDefault();
+           var amount = document.getElementById("amount").selectedIndex;
+           var time = document.getElementById("time").selectedIndex
+           $.get('/change_time/' + infoHash + '?amount=' + amount + '&time=' + time,function(data){
 
+           })
 
+         })
   </script>

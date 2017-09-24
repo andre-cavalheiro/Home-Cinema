@@ -44,7 +44,7 @@ app.use('/', index);
 app.post('/download', download);
 app.use('/torrent', torrent);
 app.use('/display', display);
-app.get('/boop/:infoHash', function(req, res) {
+app.use('/boop/:infoHash', function(req, res) {
     var now = Date.now();
     for (i = 0; i < app.library.length; i++) {
         if (app.library[i].infoHash == req.params.infoHash) {
@@ -53,12 +53,7 @@ app.get('/boop/:infoHash', function(req, res) {
     }
     res.status(200).send("Time uplouded");
 })
-
-app.use('/stream/head', head);
-app.use('/stream/video', video)
-app.use('/stream/metadata', metadata)
-app.use('/stream/files', files);
-app.use('/stream/remove/:infoHash', function(req, res) {
+app.use('/remove/:infoHash', function(req, res) {
     var remove = app.removeTorrent(req.params.infoHash);
     if (remove == 1) {
         res.status(200).send("File removed")
@@ -66,6 +61,17 @@ app.use('/stream/remove/:infoHash', function(req, res) {
         res.status(500).send("Error deleting file")
     }
 })
+app.use('/change_time/:infoHash', function(req, res) {
+    var infoHash = req.params.infoHash;
+    var amount = req.query.amount;
+    var time = req.query.time;
+    app.changelimitTorrent(infoHash,amount,time);
+})
+
+app.use('/stream/head', head);
+app.use('/stream/video', video)
+app.use('/stream/metadata', metadata)
+app.use('/stream/files', files);
 
 
 //Global functions
@@ -90,11 +96,40 @@ app.removeTorrent = function(infoHash) {
   }
 }
 
+
+app.changelimitTorrent = function(infoHash,amount,time){
+    if(time == 3){
+      for (i = 0; i < app.library.length; i++) {
+          if (app.library[i].infoHash == infoHash) {
+            app.library[i].limit = 0;
+            return 1;
+          }
+      }
+    }else{
+        var miliseconds = [86400000,604800000]
+        var now = Date.now();
+        try {
+          var new_time = now + amount*miliseconds[time-1];
+          for (i = 0; i < app.library.length; i++) {
+              if (app.library[i].infoHash == infoHash) {
+                console.log("New_time: " + new_time)
+                app.library[i].limit = new_time;
+                return 1;
+              }
+            }
+          } catch(e){
+            console.log("Error while changing torrent time");
+            return 0;
+          }
+    }
+}
+
+
 setInterval(function() {
     var now = Date.now();
     for (i = 0; i < app.library.length; i++) {
-        //console.log(app.library)
-        if (app.library[i].time > 0) {
+        console.log(app.library)
+        if (app.library[i].limit > 0) {
             if ((now - app.library[i].time) > app.library[i].limit) {
                 //console.log("Diff: " + (now - app.library[i].time))
                 app.removeTorrent(app.library[i].infoHash);
@@ -103,6 +138,8 @@ setInterval(function() {
     }
 }, 1000);
 
+
+//ERRORS:
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
