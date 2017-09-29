@@ -112,7 +112,6 @@ app.changelimitTorrent = function(infoHash,amount,time){
           var new_time = now + amount*miliseconds[time-1];
           for (i = 0; i < app.library.length; i++) {
               if (app.library[i].infoHash == infoHash) {
-                console.log("New_time: " + new_time)
                 app.library[i].limit = new_time;
                 return 1;
               }
@@ -128,7 +127,7 @@ app.changelimitTorrent = function(infoHash,amount,time){
 setInterval(function() {
     var now = Date.now();
     for (i = 0; i < app.library.length; i++) {
-        console.log(app.library)
+        //console.log(app.library)
         if (app.library[i].limit > 0) {
             if ((now - app.library[i].time) > app.library[i].limit) {
                 //console.log("Diff: " + (now - app.library[i].time))

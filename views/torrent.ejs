@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Home_cinema</title>
+    <title>Home Cinema</title>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
   <meta charset="utf-8" />
 
@@ -12,40 +12,38 @@
 
 </head>
   <body>
-    <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
 
     <%include header.ejs%>
 
-    <div id="files">
-            <div id="torrent_title"></div>
-            <h4>Select the file that you wish to see</h4>
-            <form id="torrent_files"></form>
-    </div>
+    <div class="torrent_ejs">
+        <div id="files"class="torrent_ejs">
+                <div id="torrent_title"></div>
+                <form id="torrent_files"></form>
+        </div>
 
-    <br>
-     <input type="button" id="delete" value="Delete">
-    <br><br>
 
-    <form id=mod_time>
-        Administrators only: I want to save this torrent for:
-        <Select id="amount">
-          <option value="" disabled selected>Amount</option>
-          <option value="1">1 </option>
-          <option value="2">2 </option>
-          <option value="3">3  </option>
-          <option value="4">4 </option>
-          <option value="5">5 </option>
-        </Select>
+        <form id="mod_time" class="torrent_ejs">
+          <b><font color="#9c3e46">Administrators only:</font></b> I want to save this torrent for:
+          <Select id="amount">
+            <option value="" disabled selected>Amount</option>
+            <option value="1">1 </option>
+            <option value="2">2 </option>
+            <option value="3">3  </option>
+            <option value="4">4 </option>
+            <option value="5">5 </option>
+          </Select>
 
-        <Select id="time">
-          <option value="" disabled selected>Time</option>
-          <option value="1">days </option>
-          <option value="2">week</option>
-          <option value="3">indefinitely</option>
-        </Select>
+          <Select id="time">
+            <option value="" disabled selected>Time</option>
+            <option value="1">days </option>
+            <option value="2">week</option>
+            <option value="3">indefinitely</option>
+          </Select>
 
-        <input type="submit" id="change" value="Change Time">'
-    </form>
+          <input type="submit" id="change" value="Change Time">'
+        </form>
+        <input type="button" id="delete" class="torrent_ejs" value="Delete Torrent">
+   </div>
 
 
   </body>
@@ -55,7 +53,7 @@
         var url = location.href.split("/");
         var infoHash = url[4];
         $.get('/stream/files/' + infoHash, function(data){
-               $('#torrent_title').append('<h3>' + data.title + '</h3>');
+               $('#torrent_title').append('<p><h4> You are watching </h4> <h3>' + data.title + '</h3> <h4> select the file you wish to see: </h4></p>');
                for(i=0; i<data.files.length;i++){
                    $('#torrent_files').append('<input type="radio" name="files" value="' + i + '" >' +  data.files[i] + '<br>');
                }

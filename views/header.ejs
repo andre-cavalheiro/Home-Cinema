@@ -1,7 +1,21 @@
-<a href="/">Home</a>
-<a href="/History">History</a>
-<a href="/about">About</a>
+
+<div id="the_header">
+  <a href="/"><img src="/images/home1.png"></a>
+  <br><br>
+  <a href="/">Home</a>
+  <a href="/History">History</a>
+  <a href="/about">About</a>
 <br><br>
+</div>
+
+<script type="text/javascript">
+  $('#home').off('click').on('click', function(e){
+    e.preventDefault();
+    var url = location.href.split("/");
+    window.location.replace( url[0] + '//' + url[2]);
+  })
+</script>
+
 <%/*
 <button id="home" type=button onclick="location.href='http://localhost:3000/'">Home</button> <br>
 <button id="history" type=button onclick="location.href='http://localhost:3000/history'">History</button> <br>
