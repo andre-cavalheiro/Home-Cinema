@@ -1,8 +1,118 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px Verdana,Geneva,sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
+
+/*HEADER.EJS*/
+#the_header {
+  text-align: center;
+  font-size: 150%;
+  word-spacing: 30px;
+}
+
+#the_header a {
+  text-decoration: none;
+  padding: 8px 35px;
+  border:20px;
+}
+#the_header a:link {color:forestgreen;}
+#the_header a:visited {color:seagreen;}
+#the_header a:hover {text-decoration:none;color:yellowgreen;font-weight:bold;}
+
+/*INDEX.EJS*/
+/*Propriedades gerais para os elementos primários*/
+.front_page, .torrent_ejs, .loading {
+    text-align: center;
+    font-size: 100%
+}
+
+/*Barra dos magnets:*/
+#magnetURI {
+    width: 27%;
+    padding: 8px 20px;
+}
+
+/*https://css-tricks.com*/
+button,input[type=submit],input[type=button]{
+  border-top: 1px solid #0c1114;
+  background: #c4de6f;
+  background: -webkit-gradient(linear, left top, left bottom, from(#c4de6f), to(#c4de6f));
+  background: -webkit-linear-gradient(top, #c4de6f, #c4de6f);
+  background: -moz-linear-gradient(top, #c4de6f, #c4de6f);
+  background: -ms-linear-gradient(top, #c4de6f, #c4de6f);
+  background: -o-linear-gradient(top, #c4de6f, #c4de6f);
+  padding: 7px 12px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: #000000;
+  font-size: 14px;
+  text-decoration: none;
+  vertical-align: middle;
+}
+button:hover,input[type=submit]:hover,input[type=button]:hover{
+  border-top-color: #99cd32;
+  background: #99cd32;
+  color: #000000;
+}
+button:active,input[type=submit]:active,input[type=button]:active{
+  border-top-color: #2c6e1a;
+  background: #2c6e1a;
+}
+
+
+
+/*TORRENT.EJS*/
+#files {
+  padding:6px 12px;
+  position: relative;
+  margin-bottom:30px;
+}
+
+#mod_time{
+  position: relative;
+  clear: both;
+  margin-bottom:30px;
+}
+
+
+#delete {
+   border-top: 1px solid #000000;
+   background: #9c3e46;
+   background: -webkit-gradient(linear, left top, left bottom, from(#9c3e46), to(#9c3e46));
+   background: -webkit-linear-gradient(top, #9c3e46, #9c3e46);
+   background: -moz-linear-gradient(top, #9c3e46, #9c3e46);
+   background: -ms-linear-gradient(top, #9c3e46, #9c3e46);
+   background: -o-linear-gradient(top, #9c3e46, #9c3e46);
+   padding: 9px 35px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: #000000;
+   font-size: 14px;
+   text-decoration: none;
+   vertical-align: middle;
+   position: relative;
+   clear : both;
+   }
+#delete:hover {
+   border-top-color: #ab0d0d;
+   background: #ab0d0d;
+   color: #000000;
+   }
+#delete:active {
+   border-top-color: #000000;
+   background: #000000;
+   }

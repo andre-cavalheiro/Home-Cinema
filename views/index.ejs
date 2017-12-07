@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Home_cinema</title>
+    <title>Home Cinema</title>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
   <meta charset="utf-8" />
 
@@ -14,33 +14,71 @@
 
 
 <body>
+        <%include header.ejs%>
 
-        <h1>Home Cinema</h1>   <h4>By Cavalheiro</h4>
+        <div id="error"> <h2><font color="red">Invalid magnet link, please refresh the page</font></h2></div>
 
-        <div id='magnet'>
-            <form id="download" method="post" action="/download">
-                <input type="text" name="magnetURI" placeholder="Insert Magnet URL">
-                <button id=upload>Uploud</button>
-            </form>
+        <div class='front_page'>
+            <form id='magnet' class='front_page' >
+                <input type="text" id="magnetURI" placeholder="Insert Magnet link">
+                <input type="submit" id="submit" value="Uploud" >
+            </div>
+            <br>
+
+            <div class='front_page'>
+                <button type="button" id ="sample_b" >sample</button>
+                <div id="sample_data">
+                  <h5>Genius S01E01:</h5>
+                  <h6>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21</h6>
+                  <h5>Wonder woman:</h5>
+                  <h6>magnet:?xt=urn:btih:5d07a63238a6af6d9eedfa7739e382efbab280cf</h6>
+                </div>
+            </div>
         </div>
-        <br>
 
-        <input type="button" id ="sample_b" value="sample">
-        <h6 id=sample_d>magnet:?xt=urn:btih:70da62aeeafb0f28efe27dcf171fd2b87b677b21 </h6>
+        <div class='loading' class='front_page'>
+				      <p><img src="/images/loading.gif" /></p>
+		    </div>
 
-    </div>
 
-    <script type="text/javascript">
-          $('#sample_d').hide();
-          //Sample Button
-          $('#sample_b').click(function(){
-              if($('#sample_d').is(":visible") ){
-                  $('#sample_d').hide()
-              }
-              else{
-                  $('#sample_d').show()
-              }
-          })
-    </script>
 </body>
 </html>
+
+<script type="text/javascript">
+          $('#error').hide();
+          $('#sample_data').hide();
+          $('.loading').hide();
+
+
+          //Sample Button
+          $('#sample_b').off('click').on('click', function(){
+              if($('#sample_data').is(":visible") ){
+                  $('#sample_data').stop(true,true).fadeOut(300);
+              }
+              else{
+                  $('#sample_data').stop(true,true).fadeIn(300);
+              }
+          })
+
+          //Uploud Button
+          $('#magnet').off('submit').on('submit', function(e){
+              e.preventDefault();
+              $('.front_page ').stop(true,true).fadeOut(300);
+              $('.loading').stop(true,true).fadeIn(300);
+
+              var magnetURI = $('#magnetURI').val();
+              $('#magnetURI').val('');
+
+              $.post('/download',{magnetURI : magnetURI}, function(data){
+                var infoHash = data.infoHash;
+                var url = location.href;
+                window.location.replace( url + 'torrent/' + infoHash );
+              })
+              .fail(function(err){
+                $('.loading').stop(true,true).fadeOut(300);
+                $('#error').stop(true,true).fadeIn(300);
+              })
+
+           })
+
+</script>

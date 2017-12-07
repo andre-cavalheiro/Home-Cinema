@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home Cinema</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset="utf-8" />
+
+	<meta name="author" content="Andre Cavalheiro">
+  <meta name="description" content="Cavalheiro's personal home cinema">
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+</head>
+  <body>
+
+    <%include header.ejs%>
+
+    <div class="torrent_ejs">
+        <div id="files"class="torrent_ejs">
+                <div id="torrent_title"></div>
+                <form id="torrent_files"></form>
+        </div>
+
+
+        <form id="mod_time" class="torrent_ejs">
+          <b><font color="#9c3e46">Administrators only:</font></b> I want to save this torrent for:
+          <Select id="amount">
+            <option value="" disabled selected>Amount</option>
+            <option value="1">1 </option>
+            <option value="2">2 </option>
+            <option value="3">3  </option>
+            <option value="4">4 </option>
+            <option value="5">5 </option>
+          </Select>
+
+          <Select id="time">
+            <option value="" disabled selected>Time</option>
+            <option value="1">days </option>
+            <option value="2">week</option>
+            <option value="3">indefinitely</option>
+          </Select>
+
+          <input type="submit" id="change" value="Change Time">'
+        </form>
+        <input type="button" id="delete" class="torrent_ejs" value="Delete Torrent">
+   </div>
+
+
+  </body>
+</html>
+
+  <script type="text/javascript">
+        var url = location.href.split("/");
+        var infoHash = url[4];
+        $.get('/stream/files/' + infoHash, function(data){
+               $('#torrent_title').append('<p><h4> You are watching </h4> <h3>' + data.title + '</h3> <h4> select the file you wish to see: </h4></p>');
+               for(i=0; i<data.files.length;i++){
+                   $('#torrent_files').append('<input type="radio" name="files" value="' + i + '" >' +  data.files[i] + '<br>');
+               }
+               $('#torrent_files').append('<br> <input type="submit" id="stream" value="stream">');
+        });
+
+        $('#torrent_files').off('submit').on('submit', function(e){
+          e.preventDefault();
+          var index = $('input[name=files]:checked', '#torrent_files').val();
+          window.location.replace(url[0] + '//' + url[2] + '/display/' + infoHash + '/' + index );
+        })
+
+        $('#delete').off('click').on('click', function(e){
+           e.preventDefault();
+           $.get('/remove/' + infoHash, function(data){
+             window.location.replace(url[0] + '//' + url[2]);
+           });
+         })
+
+         $('#mod_time').off('submit').on('submit', function(e){
+           e.preventDefault();
+           var amount = document.getElementById("amount").selectedIndex;
+           var time = document.getElementById("time").selectedIndex
+           $.get('/change_time/' + infoHash + '?amount=' + amount + '&time=' + time,function(data){
+
+           })
+
+         })
+  </script>
