@@ -1,4 +1,6 @@
-# home_cinema
+# Home Cinema
+
+Torrent video streamer platform using webtorrent. 
 
 For first start, chage to directory of project then run:
 > npm install &&  npm start
