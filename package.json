@@ -10,7 +10,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "^2.5.7",
-    "express": "^4.15.4",
+    "express": "^4.17.3",
     "fluent-ffmpeg": "^2.1.2",
     "morgan": "~1.8.1",
     "rimraf": "^2.6.1",
